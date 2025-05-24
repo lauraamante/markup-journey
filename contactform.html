@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Contact Form</title>
+        <style>
+            body{
+                text-align: center
+            }
+            head, body{
+                
+                background-color: pink;
+            }
+
+            h1 {
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                color: crimson;
+                font-weight: bold;
+                text-align: center;
+
+            }
+            label {
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                font-weight: lighter ;
+                text-align: center;
+            }
+            button {
+                background-color: crimson;
+                width: 100px;
+                justify-content: center;
+                height: 25px;
+                font-size: 15px;
+                border-radius: 5px;
+
+            }
+            button:hover{
+                background-color: rgb(141, 12, 38);
+            }
+            input, textarea {
+            width: 250px;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Contact us!</h1>
+        <form>
+            <label for="Name">Name:</label><br>
+            <input type="text" id="name" name="name" placeholder="Full name"><br><br>
+
+            <label for="Email">Email:</label><br>
+            <input type="email" id="email" email="email" placeholder="johndoe@gmail.com"><br><br>
+
+            <label for="Message">Message: </label><br>
+            <textarea type="text" id="message" message="message" placeholder="Write your message here..."></textarea> <br><br>
+
+            <button type="Submit">Submit</button>
+        </form>
+    </body>
+
+</html>
