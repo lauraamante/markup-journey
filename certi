@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <base target="_top">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 10px; background-color: #f9f9f9; color: #333; }
+    h2 { text-align: center; color: #333; margin-top: 5px; margin-bottom: 20px; font-size: 20px; border-bottom: 2px solid #4a76a8; padding-bottom: 10px; }
+    .campo { margin-bottom: 12px; }
+    label { display: block; font-weight: bold; margin-bottom: 4px; font-size: 13px; }
+    input, select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+    button { background-color: #4a76a8; color: white; padding: 10px; border: none; border-radius: 4px; width: 100%; font-weight: bold; cursor: pointer; margin-top: 15px; }
+    button:hover { background-color: #3b5e87; }
+    #status { margin-top: 10px; font-weight: bold; text-align: center; color: #008CBA; }
+  </style>
+</head>
+<body>
+
+  <h2>Formulário - Certidão Circunstanciada</h2>
+
+  <div class="campo">
+    <label>Inscrição Eleitoral no Cadastro</label>
+    <input type="text" id="inscricao">
+  </div>
+  <div class="campo">
+    <label>Nome Completo no Cadastro</label>
+    <input type="text" id="nomeCad">
+  </div>
+  <div class="campo">
+    <label>Nome da Mãe no Cadastro</label>
+    <input type="text" id="maeCad">
+  </div>
+  <div class="campo">
+    <label>Nome do Pai no Cadastro</label>
+    <input type="text" id="paiCad">
+  </div>
+  <div class="campo">
+    <label>Data de Nascimento no Cadastro (Texto / Copiar e Colar)</label>
+    <input type="text" id="dataNascCad" placeholder="Ex: 04/01/1965">
+  </div>
+  
+  <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+  <div class="campo">
+    <label>CPF ou RG</label>
+    <input type="text" id="carteiraId">
+  </div>
+  <div class="campo">
+    <label>Nome Completo na Identidade</label>
+    <input type="text" id="nomeId">
+  </div>
+  <div class="campo">
+    <label>Nome da Mãe na Identidade</label>
+    <input type="text" id="maeId">
+  </div>
+  <div class="campo">
+    <label>Nome do Pai na Identidade</label>
+    <input type="text" id="paiId">
+  </div>
+  <div class="campo">
+    <label>Data de Nascimento Identidade (Texto / Copiar e Colar)</label>
+    <input type="text" id="dataNascId" placeholder="Ex: 04/01/1965">
+  </div>
+
+  <div class="campo">
+    <label>Servidora - Cargo</label>
+    <select id="servidoraCargo">
+      <option value="">-- Selecione a Servidora Emissora --</option>
+      <option value="Servidor A, Auxiliar Eleitoral">Air Cassiane das Chagas de Andrade, Auxiliar Eleitoral</option>
+      <option value="Servidor B, Analista Judiciário">Elizabeth Faé Dresch Nogueira, Analista Judiciário</option>
+      <option value="Seridor C, Chefe de Cartório">Jéssica Regis Pereira, Chefe de Cartório</option>
+      <option value="Servidor D, Auxiliar Eleitoral">Juliana Pires, Auxiliar Eleitoral</option>
+      <option value="Servidor E, Auxiliar Eleitoral">Mara Rubia de Oliveira Gruner dos Santos, Auxiliar Eleitoral</option>
+    </select>
+  </div>
+  
+  <div class="campo">
+    <label>Data de Hoje</label>
+    <input type="date" id="dataHoje">
+  </div>
+
+  <button id="btnEnviar" onclick="enviarDados()">GERAR E IMPRIMIR CERTIDÃO</button>
+  <div id="status"></div>
+
+  <script>
+    // Preenche a data de hoje automaticamente no formato correto para poupar cliques
+    document.getElementById('dataHoje').value = new Date().toISOString().substring(0, 10);
+
+    function enviarDados() {
+      var btn = document.getElementById('btnEnviar');
+      var status = document.getElementById('status');
+      
+      btn.disabled = true;
+      status.innerText = "Processando certidão... Aguarde.";
+
+      var dados = {
+        inscricao: document.getElementById('inscricao').value,
+        nomeCad: document.getElementById('nomeCad').value,
+        maeCad: document.getElementById('maeCad').value,
+        paiCad: document.getElementById('paiCad').value,
+        dataNascCad: document.getElementById('dataNascCad').value,
+        carteiraId: document.getElementById('carteiraId').value,
+        nomeId: document.getElementById('nomeId').value,
+        maeId: document.getElementById('maeId').value,
+        paiId: document.getElementById('paiId').value,
+        dataNascId: document.getElementById('dataNascId').value,
+        servidoraCargo: document.getElementById('servidoraCargo').value,
+        dataHoje: document.getElementById('dataHoje').value
+      };
+
+      google.script.run
+        .withSuccessHandler(function(urlDownloadPdf) {
+          status.innerText = "Pronto! Abrindo impressão...";
+          btn.disabled = false;
+          window.open(urlDownloadPdf, '_blank');
+          status.innerText = "";
+        })
+        .withFailureHandler(function(erro) {
+          status.innerText = "Erro ao gerar: " + erro;
+          btn.disabled = false;
+        })
+        .processarWebAnexo(dados);
+    }
+  </script>
+</body>
+</html>
